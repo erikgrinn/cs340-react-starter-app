@@ -65,10 +65,14 @@ app.get('/api/diagnostic', async (req, res) => {
     await db.query('DROP TABLE IF EXISTS diagnostic;');
     await db.query('CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);');
     await db.query('INSERT INTO diagnostic (text) VALUES ("MySQL is working!")');
-    const results = await db.query('SELECT * FROM diagnostic;');
+    const [results] = await db.query('SELECT * FROM diagnostic;');
+    // using [results] and not pool can make cleaner output
+    // console.log("Query results:", results); // Debugging log
+
 
     // res.json() automatically stringifies the JavaScript object to JSON
     res.json(results);
+
 
   } catch (error) {
     // Handle Errors
