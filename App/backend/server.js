@@ -58,14 +58,14 @@ app.use(express.json());
 
 // Match to your database config route
 const db = require('./database/config.js')
-
+// trying wihtout db.pool?
 app.get('/api/diagnostic', async (req, res) => {
   try {
     // Await your database queries here
-    await db.pool.query('DROP TABLE IF EXISTS diagnostic;');
-    await db.pool.query('CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);');
-    await db.pool.query('INSERT INTO diagnostic (text) VALUES ("MySQL is working!")');
-    const results = await db.pool.query('SELECT * FROM diagnostic;');
+    await db.query('DROP TABLE IF EXISTS diagnostic;');
+    await db.query('CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);');
+    await db.query('INSERT INTO diagnostic (text) VALUES ("MySQL is working!")');
+    const results = await db.query('SELECT * FROM diagnostic;');
 
     // res.json() automatically stringifies the JavaScript object to JSON
     res.json(results);
@@ -73,7 +73,7 @@ app.get('/api/diagnostic', async (req, res) => {
   } catch (error) {
     // Handle Errors
     console.error('Database operation failed:', error);
-    res.status(500).send('Server error');
+    res.status(500).send('Server error!');
   }
 });
 

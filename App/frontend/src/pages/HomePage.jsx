@@ -11,13 +11,14 @@ function HomePage() {
     try {
       // Construct the URL for the API call
       const URL = import.meta.env.VITE_API_URL + 'diagnostic';
+      // console.log(URL)
       // Use Axios to make the GET request
       const response = await axios.get(URL);
       // Update state with the response data
       setDiagnosticData(response.data);
     } catch (error) {
       // Handle any errors that occur during the fetch operation
-      console.error('Error fetching diagnostic data:', error);
+      console.error('Error fetching diagnostic data:', error.response || error.message);
       alert('Error fetching diagnostic data from the server.');
     }
   };
@@ -34,7 +35,7 @@ function HomePage() {
   } else if (diagnosticData.length === 0) {
     content = <p>No diagnostic data found.</p>; // Show if data is an empty array
   } else {
-    content = <pre>{JSON.stringify(diagnosticData, null, 2)}</pre>;
+    content = <pre>{JSON.stringify(diagnosticData[0], null, 2)}</pre>;
   }
 
   // display the content and anything else
