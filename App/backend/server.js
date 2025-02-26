@@ -3,8 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 8500;
-
+const PORT = process.env.PORT || 1995;
 
 
 // Middleware:
@@ -14,6 +13,8 @@ const PORT = process.env.PORT || 8500;
 // EX (FLIP/classwork) http://flip3.engr.oregonstate.edu:5173
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
+// console.log('hello')
+
 
 // API Routes for backend CRUD:
 // app.use("/api/diagnostic", require("./routes/diagnosticRoutes"));
@@ -25,7 +26,9 @@ app.use(express.json());
 /*
     ROUTES
 */
-// app.get('/', function(req, res)
+// const db = require('./database/config.js')
+
+// app.get('/api/diagnostic', function(req, res)
 //     {
 //         // Define our queries
 //         query1 = 'DROP TABLE IF EXISTS diagnostic;';
@@ -49,7 +52,8 @@ app.use(express.json());
 
 //                         // Send the results to the browser
 //                         let base = "<h1>MySQL Results:</h1>"
-//                         res.send(base + JSON.stringify(results));
+//                         // res.send(base + JSON.stringify(results));
+//                         res.json(results)
 //                     });
 //                 });
 //             });
@@ -62,17 +66,15 @@ const db = require('./database/config.js')
 app.get('/api/diagnostic', async (req, res) => {
   try {
     // Await your database queries here
-    await db.query('DROP TABLE IF EXISTS diagnostic;');
-    await db.query('CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);');
-    await db.query('INSERT INTO diagnostic (text) VALUES ("MySQL is working!")');
-    const [results] = await db.query('SELECT * FROM diagnostic;');
+    // await db.query('DROP TABLE IF EXISTS diagnostic;');
+    // await db.query('CREATE OR REPLACE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);');
+    // await db.query('INSERT INTO diagnostic (text) VALUES ("MySQL is working!")');
+    const [results] = await db.pool.query('SELECT * FROM Cars;');
     // using [results] and not pool can make cleaner output
-    // console.log("Query results:", results); // Debugging log
-
+    console.log("Query results:", results); // Debugging log
 
     // res.json() automatically stringifies the JavaScript object to JSON
     res.json(results);
-
 
   } catch (error) {
     // Handle Errors

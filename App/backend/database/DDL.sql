@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS Purchases (
   FOREIGN KEY (customer_id) REFERENCES Customers (customer_id)
       ON DELETE CASCADE,
   FOREIGN KEY (employee_id) REFERENCES Employees (employee_id)
-      ON DELETE CASCADE
+      ON DELETE SET NULL
 );
 
 
